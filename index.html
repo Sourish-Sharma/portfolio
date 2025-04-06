@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sourish Sharma</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #2e3440; /* Nord dark blue */
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+    }
+    nav {
+      background-color: #3b4252;
+      color: #eceff4;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    nav .logo {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #88c0d0;
+    }
+    nav .links a {
+      margin-left: 20px;
+      color: #d8dee9;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    nav .links a:hover {
+      color: #81a1c1;
+    }
+    .intro-section {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #d8dee9;
+    }
+    .intro-section h1 {
+      font-size: 2.5rem;
+      color: #88c0d0;
+      margin-bottom: 0.5rem;
+    }
+    .intro-section p {
+      font-size: 1.2rem;
+      color: #a3be8c; /* updated to match terminal text */
+      margin-bottom: 1.5rem;
+    }
+    .intro-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .intro-buttons a {
+      padding: 1rem 2rem;
+      border: none;
+      font-size: 0.9rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .github-btn {
+      background-color: #eceff4;
+      color: #2e3440;
+    }
+    .youtube-btn {
+      background-color: rgba(191, 97, 106, 0.2);
+      color: #bf616a;
+    }
+    .terminal-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .terminal {
+      width: 80%;
+      max-width: 800px;
+      height: 500px;
+      background-color: #2e3440; /* Reverted to original terminal background */
+      color: #a3be8c;
+      border-radius: 8px;
+      padding: 10px;
+      overflow-y: auto;
+      border: 2px solid #88c0d0;
+      box-shadow: 0 0 20px #88c0d0;
+      font-size: 1.1rem;
+    }
+    .input-line {
+      display: flex;
+    }
+    .prompt {
+      margin-right: 5px;
+      color: #8fbcbb;
+    }
+    .output {
+      white-space: pre-wrap;
+      margin-bottom: 5px;
+    }
+    input {
+      background: none;
+      border: none;
+      outline: none;
+      color: #a3be8c;
+      flex-grow: 1;
+      font-family: monospace;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">Sourish Sharma</div>
+    <div class="links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section class="intro-section">
+    <h1>I code stuff.</h1>
+    <p>Currently focused on making Linux libraries and Competitive programming</p>
+    <div class="intro-buttons">
+      <a href="#projects" class="github-btn">More Projects</a>
+      <a href="https://youtube.com" target="_blank" class="youtube-btn">▶ YouTube Channel</a>
+    </div>
+  </section>
+
+  <div class="terminal-container">
+    <div class="terminal" id="terminal">
+      <!-- <div class="output">Welcome to <span style="color: #81a1c1;">Web Terminal Emulator</span>!</div> -->
+      <div class="output">Use <span style="color: #88c0d0;">project</span> command to see more projects. Use <span style="color: #88c0d0;">help</span> command for more info.</div>
+      <div class="input-line">
+        <span class="prompt">$</span>
+        <input type="text" id="commandInput" autofocus />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const terminal = document.getElementById("terminal");
+    const commandInput = document.getElementById("commandInput");
+
+    terminal.addEventListener("mouseenter", () => {
+      commandInput.focus();
+    });
+
+    const projects = {
+      "portfolio": {
+        description: "Personal portfolio showcasing my work and skills",
+        link: "#"
+      },
+      "todo-app": {
+        description: "A simple todo list web application",
+        link: "#"
+      },
+      "weather-app": {
+        description: "Displays real-time weather for any location",
+        link: "#"
+      }
+    };
+
+    const commands = {
+      pwd: () => window.location.href,
+      date: () => new Date().toString(),
+      whoami: () => "guest",
+      echo: (args) => args.join(" "),
+      clear: () => {
+        terminal.innerHTML = '<div class="output">Welcome to <span style="color: #81a1c1;">Web Terminal Emulator</span>!</div>' +
+          '<div class="output">Use <span style="color: #88c0d0;">project</span> command to see more projects. Use <span style="color: #88c0d0;">help</span> command for more info.</div>' +
+          '<div class="input-line"><span class="prompt">$</span><input type="text" id="commandInput" autofocus /></div>';
+        document.getElementById("commandInput").focus();
+        return "";
+      },
+      ls: () => "file1.txt\nfile2.txt\ndirectory/",
+      mkdir: (args) => args.length ? `Directory '${args[0]}' created.` : "mkdir: missing operand",
+      touch: (args) => args.length ? `File '${args[0]}' created.` : "touch: missing file operand",
+      help: () =>
+        `Available commands:\n${Object.keys(commands).join(", ")}`,
+      uname: () => "Linux WebTerm 1.0",
+      exit: () => {
+        window.close();
+        return "Exiting terminal...";
+      },
+      project: () => {
+        let result = "Available Projects:\n";
+        for (const [name, { description, link }] of Object.entries(projects)) {
+          result += `<a href="${link}" target="_blank" style="color: #81a1c1; text-decoration: underline;">${name}</a>: ${description}\n`;
+        }
+        return result.trim();
+      }
+    };
+
+    commandInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const input = commandInput.value.trim();
+        const args = input.split(" ");
+        const cmd = args[0];
+        const cmdArgs = args.slice(1);
+
+        const outputLine = document.createElement("div");
+        outputLine.className = "output";
+        outputLine.innerHTML = `<span style='color:#d8dee9;'>$</span> ${input}`;
+        terminal.insertBefore(outputLine, commandInput.parentElement);
+
+        let result;
+        if (commands[cmd]) {
+          result = commands[cmd](cmdArgs);
+        } else {
+          result = `<span style='color:#bf616a;'>${cmd}: command not found</span>`;
+        }
+
+        if (result !== "") {
+          const resultLine = document.createElement("div");
+          resultLine.className = "output";
+          resultLine.innerHTML = result;
+          terminal.insertBefore(resultLine, commandInput.parentElement);
+        }
+
+        commandInput.value = "";
+        terminal.scrollTop = terminal.scrollHeight;
+      }
+    });
+  </script>
+</body>
+</html>
