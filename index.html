@@ -172,8 +172,7 @@
       whoami: () => "guest",
       echo: (args) => args.join(" "),
       clear: () => {
-        terminal.innerHTML = '<div class="output">Welcome to <span style="color: #81a1c1;">Web Terminal Emulator</span>!</div>' +
-          '<div class="output">Use <span style="color: #88c0d0;">project</span> command to see more projects. Use <span style="color: #88c0d0;">help</span> command for more info.</div>' +
+        terminal.innerHTML = '<div class="output">Use <span style="color: #88c0d0;">project</span> command to see more projects. Use <span style="color: #88c0d0;">help</span> command for more info.</div>' +
           '<div class="input-line"><span class="prompt">$</span><input type="text" id="commandInput" autofocus /></div>';
         document.getElementById("commandInput").focus();
         return "";
